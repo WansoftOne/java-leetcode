@@ -1,12 +1,13 @@
 package mx.wansoft;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DesignAnOrdererStream {
     
     public static void run() {
-
     }
 
     class OrderedStream {
@@ -20,6 +21,7 @@ public class DesignAnOrdererStream {
         
         public List<String> insert(int idKey, String value) {
             data[idKey - 1] = value;
+            Collections.max(Arrays.asList(4,5,5));
             List<String> result = new ArrayList<String>();
             if (value == null) {
                 result = null;
