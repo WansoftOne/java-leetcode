@@ -32,8 +32,6 @@ import java.util.Arrays;
  */
 public class SumOfAllOddLengthSubarrays {
     class Solution {
-
-        // It doesn't work take a look tomorrow
         public int sumOddLengthSubarrays(int[] arr) {
             int sum = Arrays.stream(arr).sum();
             for (int i=2; i < arr.length; i += 2) {
