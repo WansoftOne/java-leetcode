@@ -61,16 +61,25 @@ public class MinimunNumberOfMovesToSeatEveryone {
             Arrays.sort(seats);
             Arrays.sort(students);
             
-            for (int i=0; i < seats.length - 1; i++) {
-                int diffStudent1 = Math.abs(students[i] - seats[i]);
-                int diffStudent2 = Math.abs(students[i + 1] - seats[i]);
-                if ( diffStudent1 < diffStudent1) {
+            for (int i=0; i < seats.length; i++) {
+                int diffStudent1 = Math.abs(seats[i] - students[i]);
+                if (i == seats.length - 1) {
                     answer += diffStudent1;
-                } else {
+                    break;   
+                }
+
+                int diffStudent2 = Math.abs(seats[i] - students[i + 1]);
+                if ( diffStudent1 < diffStudent2) {
+                    System.out.println("normal diffstudent1: " + diffStudent1 + " diffstudent2: " + diffStudent2);
+                    answer += diffStudent1;
+                } else if (diffStudent1 > diffStudent1) {
+                    System.out.println("switch diffstudent1: " + diffStudent1 + " diffstudent2: " + diffStudent2);
                     answer += diffStudent2;
                     int copy = students[i + 1];
                     students[i + 1] = students[i];
                     students[i] = copy;
+                } else {
+                    answer += diffStudent1;
                 }
             }
             return answer;
