@@ -36,8 +36,28 @@ import java.util.Arrays;
 public class MaximunProductDifferenceBetweenTwoPairs {
     class Solution {
         public int maxProductDifference(int[] nums) {
-            Arrays.sort(nums);
-            return (nums[nums.length - 1] * nums[nums.length - 2]) - (nums[0] * nums[1]) ;
+            int max = Integer.MIN_VALUE;
+            int secondMax = Integer.MIN_VALUE;
+            int min = Integer.MAX_VALUE;
+            int secondMin = Integer.MAX_VALUE;
+
+            for (int num: nums) {
+                if (num > secondMax && num > max) {
+                    secondMax = max;
+                    max = num;
+                } else if (num > secondMax) {
+                    secondMax = num;
+                }
+
+                if (num < secondMin && num < min) {
+                    secondMin = min;
+                    min = num;
+                } else if (num < secondMin) {
+                    secondMin = num;
+                }
+            }
+
+            return (max * secondMax) - (min * secondMin);
         }
     }
 }
