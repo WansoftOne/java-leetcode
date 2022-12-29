@@ -37,13 +37,10 @@ public class SortThePeople {
         public String[] sortPeople(String[] names, int[] heights) {
             int i = 1;
             while (i < heights.length -1) {
-                if (heights[i] > heights[i -1] ) {
+                if (i > 0 && heights[i] > heights[i -1] ) {
                     swapString(names, i, i - 1);
                     swapInt(heights, i, i - 1);
-                    continue;
-                } else if (heights[i] > heights[i + 1] ) {
-                    swapString(names, i, i + 1);
-                    swapInt(heights, i, i + 1);
+                    i--;
                     continue;
                 }
                 i++;
