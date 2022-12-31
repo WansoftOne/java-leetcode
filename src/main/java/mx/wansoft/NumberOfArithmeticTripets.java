@@ -39,8 +39,8 @@ public class NumberOfArithmeticTripets {
             System.out.println(Objects.toString(values));
 
             for (int num : nums) {
-                int j = num + 3;
-                int k = j + 3;
+                int j = num + diff;
+                int k = j + diff;
                 if (values.contains(j) && values.contains(k)) {
                     triplets++;
                 }

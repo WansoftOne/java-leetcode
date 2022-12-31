@@ -1,7 +1,5 @@
 package mx.wansoft;
 
-import java.util.Arrays;
-
 /**
  * 
     The product difference between two pairs (a, b) and (c, d) is defined as (a * b) - (c * d).
