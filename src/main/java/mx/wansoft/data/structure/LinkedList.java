@@ -10,43 +10,34 @@ package mx.wansoft.data.structure;
  * Lookup by index O(n)
  * Lookup by value O(n)
  */
-public class LinkedList {
+public class LinkedList<E> {
     public static void main(String[] args) {
-        LinkedList myLinkedList =  new LinkedList(4);
-        myLinkedList.append(1);
-        myLinkedList.append(80);
-        myLinkedList.printList();
-        myLinkedList.removeLast();
-        myLinkedList.printList();
-        myLinkedList.removeLast();
-        myLinkedList.printList();
-        myLinkedList.removeLast();
+        LinkedList<Integer> myLinkedList =  new LinkedList<Integer>(4, 5, 3);
+        System.out.println("At the index 1 we have: " + myLinkedList.get(1));
         myLinkedList.printList();
     }
 
-
-    private Node head;
-    private Node tail;
+    private Node<E> head;
+    private Node<E> tail;
     private int length;
 
-    class Node {
-        int value;
-        Node next;
+    class Node<T> {
+        T value;
+        Node<T> next;
 
-        Node(int value) {
+        Node(T value) {
             this.value = value;
         }
     }
 
-    public LinkedList(int value) {
-        Node newNode = new Node(value);
-        head = newNode;
-        tail = newNode;
-        length = 1;
+    public LinkedList(E ...values) {
+        for (E value : values) {
+            append(value);
+        }
     }
 
-    public void append(int value) {
-        Node node = new Node(value);
+    public void append(E value) {
+        Node<E> node = new Node<E>(value);
         if (length == 0) {
             head = node;
             tail = node;
@@ -57,8 +48,31 @@ public class LinkedList {
         length++;
     }
 
+    public E get(int index) {
+        if (index < 0 || index >= length || length == 0) {
+            return null;
+        }
+        Node<E> temp = head;
+        for (int i=0; i < index; i++) {
+            temp = temp.next;
+        }
+        return temp.value;
+    }
+
+    public void prepend(E value) {
+        Node<E> newNode = new Node<E>(value);
+        if (length == 0) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            newNode.next = head;
+            head = newNode;
+        }
+        length++;
+    }
+
     public void printList() {
-        Node temp = head;
+        Node<E> temp = head;
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         while(temp != null) {
@@ -70,10 +84,22 @@ public class LinkedList {
         System.out.println(sb.toString());
     }
 
-    public Node removeLast() {
+    public E removeFirst() {
         if (length == 0) return null;
-        Node temp = head;
-        Node pre = head;
+        Node<E> temp = head;
+        head = head.next;
+        temp.next = null;
+        length--;
+        if (length == 0 ) {
+            tail = null;
+        }
+        return temp != null ? temp.value : null;
+    }
+
+    public E removeLast() {
+        if (length == 0) return null;
+        Node<E> temp = head;
+        Node<E> pre = head;
         while(temp.next != null) {
             pre = temp;
             temp = temp.next;
@@ -85,21 +111,19 @@ public class LinkedList {
             head = null;
             tail = null;
         }
-        return temp;
+
+        return temp != null ? temp.value : null;
     }
 
-    public Node getHead() {
-        System.out.println("Head: " + head.value);
-        return head;
+    public E getHead() {
+        return head != null ? head.value : null;
     }
 
-    public Node getTail() {
-        System.out.println("Tail: " + tail.value);
-        return tail;
+    public E getTail() {
+        return tail != null ? tail.value : null;
     }
 
     public int getLength() {
-        System.out.println("Length: " + length);
         return length;
     }
 }
