@@ -34,24 +34,47 @@ import java.util.Map;
  * Follow-up: Could you solve the problem in linear time and in O(1) space?
  */
 public class MajorityElement {
-    class Solution {
+    public static void main(String[] args) {
+        var s = new Solution();
+        var r = s.majorityElement(new int[]{1,2,3,4,1,2,2,3});
+        System.out.println("Mayority: " + r);
+    }
+
+    static class Solution {
         public int majorityElement(int[] nums) {
-            Map<Integer, Integer> data = new HashMap<>();
-            for (int num : nums) {
-                if (data.containsKey(num)) {
-                    data.put(num, data.get(num) + 1);
-                } else {
-                    data.put(num, 1);
+
+            //Boyer-Moore Voting Algorithm
+            // Time complexity: O(n)
+            // Space complexity: O(1)
+            // The theory is based on discarting the elements.
+            int candidate = 0, counter = 0;
+            for (int n : nums) {
+                if (counter == 0) {
+                    candidate = n;
                 }
+                counter = candidate == n ? counter + 1 : counter - 1;
             }
 
-            int majority = Integer.MIN_VALUE, times= Integer.MIN_VALUE;
-            for (var entry : data.entrySet()) {
-                if (entry.getValue() > times) {
-                    majority = entry.getKey();
-                }
-            }
-            return majority;
+            return candidate;
+            // Time complexity: O(n)
+            // Space complexity: O(n)
+
+            // Map<Integer, Integer> data = new HashMap<>();
+            // for (int num : nums) {
+            //     if (data.containsKey(num)) {
+            //         data.put(num, data.get(num) + 1);
+            //     } else {
+            //         data.put(num, 1);
+            //     }
+            // }
+
+            // int majority = Integer.MIN_VALUE, times= Integer.MIN_VALUE;
+            // for (var entry : data.entrySet()) {
+            //     if (entry.getValue() > times) {
+            //         majority = entry.getKey();
+            //     }
+            // }
+            // return majority;
         }
     }
 }
