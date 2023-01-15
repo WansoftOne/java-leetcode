@@ -49,6 +49,11 @@ public class LinkedList<E> {
     }
 
     public E get(int index) {
+        Node<E> node = getNode(index);
+        return node.value;
+    }
+
+    public Node<E> getNode(int index) {
         if (index < 0 || index >= length || length == 0) {
             return null;
         }
@@ -56,9 +61,26 @@ public class LinkedList<E> {
         for (int i=0; i < index; i++) {
             temp = temp.next;
         }
-        return temp.value;
+        return temp;
     }
 
+    public boolean insert(int index, E value) {
+        if (index < 0 || index > length) return false;
+        if (index == 0) {
+            prepend(value);
+        } else if (index == length) {
+            append(value);
+        } else {
+            Node<E> temp = getNode(index - 1);
+            Node<E> newNode = new Node<E>(value);
+            newNode.next = temp.next;
+            temp.next = newNode;
+            length++;
+        }
+
+        return true;
+    }
+ 
     public void prepend(E value) {
         Node<E> newNode = new Node<E>(value);
         if (length == 0) {
@@ -113,6 +135,15 @@ public class LinkedList<E> {
         }
 
         return temp != null ? temp.value : null;
+    }
+
+    public boolean set(int index, E value) {
+        Node<E> node = getNode(index);
+        if (node != null) {
+            node.value = value;
+            return true;
+        }
+        return false;
     }
 
     public E getHead() {
