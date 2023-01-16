@@ -1,8 +1,5 @@
 package mx.wansoft;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Write an algorithm to determine if a number n is happy.
  * 
@@ -54,12 +51,21 @@ public class HappyNumber {
         }
 
         public boolean isHappy(int n) {
-            Set<Integer> memo = new HashSet<>();
-            while (n != 1 && !memo.contains(n)) {
-                memo.add(n);
-                n = findNextNumber(n);
+            // Set<Integer> memo = new HashSet<>();
+            // while (n != 1 && !memo.contains(n)) {
+            //     memo.add(n);
+            //     n = findNextNumber(n);
+            // }
+            // return n == 1;
+
+            // Floyd's Cycle-Finding Algorithm
+            int slowRunner = n;
+            int fastRunner = findNextNumber(n);
+            while (n != 1 && slowRunner != fastRunner) {
+                slowRunner = findNextNumber(slowRunner);
+                fastRunner = findNextNumber(findNextNumber(fastRunner));
             }
-            return n == 1;
+            return fastRunner == 1;
         }
     }
 }
