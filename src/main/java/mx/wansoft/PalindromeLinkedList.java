@@ -40,14 +40,36 @@ public class PalindromeLinkedList {
     
     class Solution {
         public boolean isPalindrome(ListNode head) {
-            String content = "";
-            String reversedContent = "";
-            while (head != null) {
-                content = content + head.val;
-                reversedContent = head.val + reversedContent;
-                head = head.next;
+            ListNode reverse = null;
+            ListNode slow = head;
+            ListNode fast = head;
+            while (fast != null && fast.next != null) {
+                ListNode temp = reverse;
+                reverse = slow;
+
+                slow = slow.next;
+                fast = fast.next.next;
+                
+                reverse.next = temp;
             }
-            return content.equals(reversedContent);
+
+            if (fast != null) {
+                slow = slow.next;
+            }
+
+            while (reverse != null) {
+                if (reverse.val != slow.val) return false;
+                reverse = reverse.next;
+                slow = slow.next;
+            }
+            return true;
+            // StringBuilder content = new StringBuilder();
+            // while (head != null) {
+            //     content.append(head.val);
+            //     head = head.next;
+            // }
+            
+            // return content.toString().equals(content.reverse().toString());
         }
     }
 }
