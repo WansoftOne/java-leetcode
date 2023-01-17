@@ -40,29 +40,54 @@ public class PalindromeLinkedList {
     
     class Solution {
         public boolean isPalindrome(ListNode head) {
-            ListNode reverse = null;
-            ListNode slow = head;
-            ListNode fast = head;
-            while (fast != null && fast.next != null) {
-                ListNode temp = reverse;
-                reverse = slow;
+            if (head == null) return true;
 
-                slow = slow.next;
-                fast = fast.next.next;
+            // Find the end of first half and reverse second half.
+            ListNode firstHalfEnd = endOfFirstHalf(head);
+            ListNode secondHalfStart = reverseList(firstHalfEnd.next);
+    
+            // Check whether or not there is a palindrome.
+            ListNode p1 = head;
+            ListNode p2 = secondHalfStart;
+            boolean result = true;
+            while (result && p2 != null) {
+                if (p1.val != p2.val) result = false;
+                p1 = p1.next;
+                p2 = p2.next;
+            }        
+    
+            // Restore the list and return the result.
+            firstHalfEnd.next = reverseList(secondHalfStart);
+            return result;
+
+            
+            // Another approach
+            // ListNode reverse = null;
+            // ListNode slow = head;
+            // ListNode fast = head;
+            // while (fast != null && fast.next != null) {
+            //     ListNode temp = reverse;
+            //     reverse = slow;
+
+            //     slow = slow.next;
+            //     fast = fast.next.next;
                 
-                reverse.next = temp;
-            }
+            //     reverse.next = temp;
+            // }
 
-            if (fast != null) {
-                slow = slow.next;
-            }
+            // if (fast != null) {
+            //     slow = slow.next;
+            // }
 
-            while (reverse != null) {
-                if (reverse.val != slow.val) return false;
-                reverse = reverse.next;
-                slow = slow.next;
-            }
-            return true;
+            // while (reverse != null) {
+            //     if (reverse.val != slow.val) return false;
+            //     reverse = reverse.next;
+            //     slow = slow.next;
+            // }
+            // return true;
+
+
+
             // StringBuilder content = new StringBuilder();
             // while (head != null) {
             //     content.append(head.val);
@@ -70,6 +95,29 @@ public class PalindromeLinkedList {
             // }
             
             // return content.toString().equals(content.reverse().toString());
+        }
+
+            // Taken from https://leetcode.com/problems/reverse-linked-list/solution/
+        private ListNode reverseList(ListNode head) {
+            ListNode prev = null;
+            ListNode curr = head;
+            while (curr != null) {
+                ListNode nextTemp = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = nextTemp;
+            }
+            return prev;
+        }
+
+        private ListNode endOfFirstHalf(ListNode head) {
+            ListNode fast = head;
+            ListNode slow = head;
+            while (fast.next != null && fast.next.next != null) {
+                fast = fast.next.next;
+                slow = slow.next;
+            }
+            return slow;
         }
     }
 }
