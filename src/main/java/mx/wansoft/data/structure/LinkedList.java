@@ -10,79 +10,88 @@ package mx.wansoft.data.structure;
  * Lookup by index O(n)
  * Lookup by value O(n)
  */
-public class LinkedList<E> {
-    public static void main(String[] args) {
-        LinkedList<Integer> myLinkedList =  new LinkedList<Integer>(4, 5, 3);
-        System.out.println("At the index 1 we have: " + myLinkedList.get(1));
-        myLinkedList.printList();
-    }
+public class LinkedList {
 
-    private Node<E> head;
-    private Node<E> tail;
+    private Node head;
+    private Node tail;
     private int length;
 
-    class Node<T> {
-        T value;
-        Node<T> next;
+    class Node {
+        int value;
+        Node next;
 
-        Node(T value) {
+        Node(int value) {
             this.value = value;
         }
     }
 
-    public LinkedList(E ...values) {
-        for (E value : values) {
-            append(value);
+    public LinkedList(int value) {
+        Node newNode = new Node(value);
+        head = newNode;
+        tail = newNode;
+        length = 1;
+    }
+
+    public void printList() {
+        Node temp = head;
+        while (temp != null) {
+            System.out.println(temp.value);
+            temp = temp.next;
         }
     }
 
-    public void append(E value) {
-        Node<E> node = new Node<E>(value);
-        if (length == 0) {
-            head = node;
-            tail = node;
+    public void getHead() {
+        if (head == null) {
+            System.out.println("Head: null");
         } else {
-            tail.next = node;
-            tail = node;
+            System.out.println("Head: " + head.value);
+        }
+    }
+
+    public void getTail() {
+        if (head == null) {
+            System.out.println("Tail: null");
+        } else {
+            System.out.println("Tail: " + tail.value);
+        }
+    }
+
+    public void getLength() {
+        System.out.println("Length: " + length);
+    }
+
+    public void append(int value) {
+        Node newNode = new Node(value);
+        if (length == 0) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
         }
         length++;
     }
 
-    public E get(int index) {
-        Node<E> node = getNode(index);
-        return node.value;
-    }
-
-    public Node<E> getNode(int index) {
-        if (index < 0 || index >= length || length == 0) {
-            return null;
-        }
-        Node<E> temp = head;
-        for (int i=0; i < index; i++) {
+    public Node removeLast() {
+        if (length == 0) return null;
+        Node temp = head;
+        Node pre = head;
+        while(temp.next != null) {
+            pre = temp;
             temp = temp.next;
+        }
+        tail = pre;
+        tail.next = null;
+        length--;
+        if (length == 0) {
+            head = null;
+            tail = null;
         }
         return temp;
     }
 
-    public boolean insert(int index, E value) {
-        if (index < 0 || index > length) return false;
-        if (index == 0) {
-            prepend(value);
-        } else if (index == length) {
-            append(value);
-        } else {
-            Node<E> temp = getNode(index - 1);
-            Node<E> newNode = new Node<E>(value);
-            newNode.next = temp.next;
-            temp.next = newNode;
-            length++;
-        }
-
-        return true;
-    }
- 
-    public void prepend(E value) {
-        Node<E> newNode = new Node<E>(value);
+    public void prepend(int value) {
+        Node newNode = new Node(value);
         if (length == 0) {
             head = newNode;
             tail = newNode;
@@ -93,68 +102,81 @@ public class LinkedList<E> {
         length++;
     }
 
-    public void printList() {
-        Node<E> temp = head;
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        while(temp != null) {
-            sb.append(temp.value);
-            temp = temp.next;
-            if (temp != null) sb.append(", ");
-        }
-        sb.append("]");
-        System.out.println(sb.toString());
-    }
-
-    public E removeFirst() {
+    public Node removeFirst() {
         if (length == 0) return null;
-        Node<E> temp = head;
+        Node temp = head;
         head = head.next;
         temp.next = null;
         length--;
-        if (length == 0 ) {
+        if (length == 0) {
             tail = null;
         }
-        return temp != null ? temp.value : null;
+        return temp;
     }
 
-    public E removeLast() {
-        if (length == 0) return null;
-        Node<E> temp = head;
-        Node<E> pre = head;
-        while(temp.next != null) {
-            pre = temp;
+    public Node get(int index) {
+        if (index < 0 || index >= length) return null;
+        Node temp = head;
+        for(int i = 0; i < index; i++) {
             temp = temp.next;
         }
-        tail = pre;
-        pre.next = null;
-        length--;
-        if (length == 0) {
-            head = null;
-            tail = null;
-        }
-
-        return temp != null ? temp.value : null;
+        return temp;
     }
 
-    public boolean set(int index, E value) {
-        Node<E> node = getNode(index);
-        if (node != null) {
-            node.value = value;
+    public boolean set(int index, int value) {
+        Node temp = get(index);
+        if (temp != null) {
+            temp.value = value;
             return true;
         }
         return false;
     }
 
-    public E getHead() {
-        return head != null ? head.value : null;
+    public boolean insert(int index, int value)  {
+        if (index < 0 || index > length) return false;
+        if (index == 0) {
+            prepend(value);
+            return true;
+        }
+        if (index == length) {
+            append(value);
+            return true;
+        }
+        Node newNode = new Node(value);
+        Node temp = get(index - 1);
+        newNode.next = temp.next;
+        temp.next = newNode;
+        length++;
+        return true;
     }
 
-    public E getTail() {
-        return tail != null ? tail.value : null;
+    public Node remove(int index) {
+        if (index < 0 || index >= length) return null;
+        if (index == 0) return removeFirst();
+        if (index == length - 1) return removeLast();
+
+        Node prev = get(index - 1);
+        Node temp = prev.next;
+
+        prev.next = temp.next;
+        temp.next = null;
+        length--;
+        return temp;
     }
 
-    public int getLength() {
-        return length;
+    public void reverse() {
+        Node temp = head;
+        head = tail;
+        tail = temp;
+        Node next = temp.next;
+        Node before = null;
+
+        for (int i=0; i < length; i++) {
+            next = temp.next;
+            temp.next = before;
+            before = temp;
+            temp = next;
+        }
     }
+
 }
