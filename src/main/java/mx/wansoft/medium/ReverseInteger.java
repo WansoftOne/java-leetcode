@@ -36,18 +36,16 @@ package mx.wansoft.medium;
 public class ReverseInteger {
     class Solution {
         public int reverse(int x) {
-            Long rev = 0L;
+            int rev = 0;
             while(x != 0) {
+                if(rev>Integer.MAX_VALUE/10 || rev<Integer.MIN_VALUE/10) return 0;
                 // pop the last digit of the number
                 int pop = x % 10;
                 x /= 10;
                 // add the poped digit to the reversed number
                 rev = rev * 10 + pop;
-                if (rev > Math.pow(2, 31) || rev < Math.pow(-2, 31)) {
-                    return 0;
-                }
             }
-            return rev.intValue();
+            return rev;
         }
     }
 }
