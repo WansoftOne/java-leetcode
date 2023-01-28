@@ -36,6 +36,85 @@ public class DoblyLinkedList {
         length++;
     }
 
+    public Node get(int index) {
+        if (index < 0 || index > length) return null;
+        Node temp = head;
+        if (index < length / 2) {
+            for (int i=0; i < index; i++) {
+                temp = temp.next;
+            }
+        } else {
+            temp = tail;
+            for (int i=length - 1; i > index; i--) {
+                temp = temp.prev;
+            }
+        }
+        return temp;
+    }
+
+    public boolean insert(int index, int value) {
+        if (index < 0 || index > length) return false;
+        if (index == 0) {
+            prepend(value);
+            return true;
+        } else if (index == length) {
+            append(value);
+            return true;
+        } 
+        Node newNode = new Node(value);
+        Node before = get(index - 1);
+        Node after = before.next;
+        newNode.next = after;
+        newNode.prev = before;
+        before.next = newNode;
+        after.prev = newNode;
+        length++;
+        return true;
+    }
+
+    public void prepend(int value) {
+        Node newNode = new Node(value);
+        if (length == 0) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            
+            newNode.next = head;
+            head.prev = newNode;
+            head = newNode;
+        }
+        length++;
+    }
+
+    public Node remove(int index) {
+        if (index < 0 || index > length) return null;
+        if (index == 0) return removeFirst();
+        if (index == length - 1) return removeLast();
+
+        Node temp = get(index);
+        temp.prev.next = temp.next;
+        temp.next.prev = temp.prev;
+        temp.next = null;
+        temp.prev = null;
+        length--;
+        return temp;
+    }
+
+    public Node removeFirst() {
+        if (length == 0) return null;
+        Node temp = head;
+        if (length == 1) {
+            head = null;
+            tail = null;
+        } else {
+            head = head.next;
+            head.prev = null;
+            temp.next = null;
+        }
+        length--;
+        return temp;
+    }
+
     public Node removeLast() {
         if (length == 0) return null;
         Node temp = tail;
@@ -49,6 +128,14 @@ public class DoblyLinkedList {
         }
         length--;
         return temp;
+    }
+
+    public boolean set(int index, int value) {
+        Node temp = get(index);
+        if (temp == null) return false;
+        
+        temp.value = value;
+        return true;
     }
 
     public void getHead() {
@@ -74,10 +161,8 @@ public class DoblyLinkedList {
     }
 
     public static void main(String[] args) {
-        DoblyLinkedList dll = new DoblyLinkedList(1,2,3);
-        System.out.println(dll.removeLast().value);
-        System.out.println(dll.removeLast().value);
-        System.out.println(dll.removeLast().value);
-        System.out.println(dll.removeLast());
+        DoblyLinkedList dll = new DoblyLinkedList(2,0,10, 15, 1, -5);
+        System.out.println(dll.get(4).value);
+        System.out.println(dll.get(1).value);
     }
 }
