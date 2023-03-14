@@ -1,7 +1,5 @@
 package mx.wansoft.medium;
 
-import javax.lang.model.element.Element;
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 /**
  * Given two integers dividend and divisor, divide two integers without using

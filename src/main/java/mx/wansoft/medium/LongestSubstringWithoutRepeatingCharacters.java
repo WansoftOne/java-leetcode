@@ -1,9 +1,7 @@
 package mx.wansoft.medium;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Given a string s, find the length of the longest
@@ -45,6 +43,7 @@ public class LongestSubstringWithoutRepeatingCharacters {
     public static void main(String[] args) {
         Solution s = new Solution();
         int r = s.lengthOfLongestSubstring("abba");
+        System.out.println(r);
     }
     static class Solution {
         public int lengthOfLongestSubstring(String s) {

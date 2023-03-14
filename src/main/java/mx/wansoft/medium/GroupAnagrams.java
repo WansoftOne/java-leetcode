@@ -3,10 +3,8 @@ package mx.wansoft.medium;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Given an array of strings strs, group the anagrams together. You can return
