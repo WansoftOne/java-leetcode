@@ -224,6 +224,7 @@ public class LinkedList {
         l1.merge(l2);
 
         l1.printList();
+        l2.printList();
     }
 
 }
