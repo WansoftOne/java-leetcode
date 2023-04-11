@@ -1,8 +1,6 @@
 package mx.wansoft.medium;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * You are given an n x n 2D matrix representing an image, rotate the image by
